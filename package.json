@@ -1,0 +1,11 @@
+{
+	"name": "Live-Tweets",
+	"version": "0.1.0",
+	"dependencies": {
+		"express": "~4.3.1",
+        "socket.io": "~0.9.17",
+        "twitter": "~0.2.9"
+	},
+	"author": "Pierre-Jean Bergeron <pierrejean.bergeron@gmail.com>",
+	"description": "Work in Progress...."
+}
