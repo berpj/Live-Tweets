@@ -1,15 +1,18 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var util = require('util');
 var twitter = require('twitter');
-var config = require('./config.json');
+var config = require('./config/config.json');
 
 var twit = new twitter(config);
-streaming = null;
+var streaming = null;
+
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
-	res.sendfile(__dirname + '/index.html');
+	res.sendfile(__dirname + '/views/index.html');
 });
 
 io.sockets.on('connection', function(socket) {

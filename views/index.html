@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Live Tweets</title>
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+	body {
+		text-align: center;
+		height: 94.9%;
+		margin: 0;
+		padding: 0;
+	}
+	html {
+		height: 100%;
+	}
+	#map-canvas {
+		height: 100%;
+		margin-top: 50px;
+	}
+	#footer {
+		position: relative;
+		height: 100px;
+		width: 100%;
+		bottom: 100px;
+		z-index: 99;
+	}
+	#total {
+		font-size: 1.3em;
+	}
+	</style>
+	<script type="text/javascript"
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEnzv1mUZsuYcnBFD0Vwwy1R1KCtisUIo&sensor=FALSE&libraries=visualization">
+	</script>
+	<script type="text/javascript">
+	var map = null;
+
+	var pointarray, heatmap;
+
+	function initialize() {
+		var mapOptions = {
+			center: new google.maps.LatLng(25, 0),
+			zoom: 3
+		};
+		map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+	}
+	google.maps.event.addDomListener(window, 'load', initialize);
+
+	</script>
+</head>
+
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Live Tweets <small>v0.1.0</small></a>
+			</div>
+			<div class="collapse navbar-collapse pull-right">
+				<ul class="nav navbar-nav">
+					<li><a href="https://github.com/berpj/Live-Tweets">Fork on Github</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="map-canvas"></div>
+
+	<div id="footer">
+		<div class="container">
+			<div class="pull-center">
+				<button class="btn btn-lg btn-success" id="pause">START</button><br>
+				<span id="total">0</span>
+			</div>
+		</div>
+	</div>
+
+	<div id="tweets"></div>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script>
+	var pause = true;
+	var total = 0;
+
+	var socket = io.connect('http://localhost:8080');
+
+	socket.on('tweet', function(tweet) {
+		write_tweet(tweet);
+	});
+
+	function write_tweet(data) {
+		if (pause === false)
+		{
+			total = total + 1;
+			//$('#tweets').html('<p>' + '<span style="color: #0084b4">@' + data.twittos + '</span> (<i>' + data.geo +  '</i>)<br>' + data.tweet + '</p>');
+			$('#total').html(total);
+
+			var marker = new google.maps.Marker({
+				position: new google.maps.LatLng(data.geo[0],data.geo[1]),
+				animation: google.maps.Animation.DROP,
+				map: map
+			});
+		}
+	};
+
+	$('#pause').click(function() {
+		if (pause)
+			$('#pause').text('STOP');
+		else
+			$('#pause').text('START');
+		pause = !pause;
+		return false;
+	});
+	</script>
+</body>
+</html>
