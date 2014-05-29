@@ -4,7 +4,13 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server, {log: false});
 var util = require('util');
 var twitter = require('twitter');
-var config = require('./config/config.json');
+
+var config = {
+	"consumer_key": process.env.consumer_key,
+	"consumer_secret": process.env.consumer_secret,
+	"access_token_key": process.env.access_token_key,
+	"access_token_secret": process.env.access_token_secret
+};
 
 var twit = new twitter(config);
 var streaming = null;
