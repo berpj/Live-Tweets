@@ -5,6 +5,8 @@ Live-Tweets
 
 ![alt tag](https://raw.githubusercontent.com/berpj/live-tweets/master/screenshots.png)
 
+### Technologies
+
 **Server:**
 
 * Node.js
@@ -16,6 +18,7 @@ Live-Tweets
 * Jquery
 * Google Map
 * Bootstrap
+* Font-Awesome
 
 ### Installation
 *Todo...*
