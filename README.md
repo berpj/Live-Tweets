@@ -1,6 +1,8 @@
 Live-Tweets
 ===========
 
+**Visualize tweets and twitpics in real time on a world map.**
+
 ![alt tag](https://raw.githubusercontent.com/berpj/live-tweets/master/screenshots.png)
 
 **Server:**
