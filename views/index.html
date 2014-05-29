@@ -3,68 +3,9 @@
 <head>
 	<meta charset="utf-8" />
 	<title>Live Tweets</title>
-	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-	<style>
-	body {
-		text-align: center;
-		height: 94.9%;
-		margin: 0;
-		padding: 0;
-	}
-	html {
-		height: 100%;
-	}
-	#map-canvas {
-		height: 100%;
-		margin-top: 50px;
-	}
-	#footer {
-		position: relative;
-		width: 100%;
-		bottom: 110px;
-		z-index: 99;
-	}
-	#total {
-		font-size: 1.3em;
-	}
-	#reset {
-		margin-left: 2.5%;
-		margin-right: 4%;
-	}
-	label {
-		font-size: 1.3em;
-		font-weight: normal;
-		margin-right: 2%;
-	}
-	p {
-		margin-bottom: 1.8%;
-	}
-	.text-twittos {
-		color: #0084b4;
-	}
-	.fa {
-		font-size: 1.3em;
-		margin-right: 4px;
-	}
-	</style>
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEnzv1mUZsuYcnBFD0Vwwy1R1KCtisUIo&sensor=FALSE&libraries=visualization"></script>
-	<script type="text/javascript">
-	var map = null;
-
-	function initialize() {
-		var mapOptions = {
-			center: new google.maps.LatLng(25, 0),
-			zoom: 3,
-			panControl: false,
-			streetViewControl: false,
-			mapTypeControl: false
-		};
-		map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-	}
-	
-	google.maps.event.addDomListener(window, 'load', initialize);
-	</script>
+	<link href="/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -94,102 +35,19 @@
 					<button class="btn btn-lg btn-default" id="reset">RESET</button>
 				</p>
 				<p>
-					<label>
-						<input type="radio" name="type" id="type-all" value="1" checked>
-						ALL
-					</label>
-					<label>
-						<input type="radio" name="type" id="type-photos" value="2">
-						PHOTOS
-					</label>
+					<label><input type="radio" name="type" id="type-all" value="1" checked> ALL</label>
+					<label><input type="radio" name="type" id="type-photos" value="2"> PHOTOS</label>
 				</p>
 			</div>
 		</div>
 	</div>
 
-	<script src="/socket.io/socket.io.js"></script>
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="/js/bootstrap.min.js"></script>
-	<script>
-	var socket = io.connect(window.location.hostname);
-	var markers = [];
-	var pause = true;
-	var photo = false;
-	var total = 0;
-
-	function display_tweet(tweet) {
-		if (pause === false)
-		{
-			total = total + 1;
-			$('#total').text(total);
-
-			var marker = new google.maps.Marker({
-				position: new google.maps.LatLng(tweet.geo[0],tweet.geo[1]),
-				animation: google.maps.Animation.DROP,
-				map: map
-			});
-			markers.push(marker);
-
-			if (photo)
-			{
-				var infowindow = new google.maps.InfoWindow({
-					content: '<img style="width: 100px" src="' + tweet.media + ':thumb"><br><span style="color: #0084b4"><a href="https://twitter.com/' + tweet.twittos + '" target="_BLANK">@' + tweet.twittos + '</a></span>',
-					maxWidth: 140
-				});
-				infowindow.open(map,marker);
-			}
-			else
-			{
-				var infowindow = new google.maps.InfoWindow({
-					content: '<span class="text-twittos"><a href="https://twitter.com/' + tweet.twittos + '" target="_BLANK">@' + tweet.twittos + '</a></span><br>' + tweet.tweet,
-					maxWidth: 140
-				});
-			}
-			
-			google.maps.event.addListener(marker, 'click', function() {
-				infowindow.open(map,marker);
-			});
-		}
-	};
-
-	function reset()
-	{
-		for (var i = 0; i < markers.length; i++ ) {
-			markers[i].setMap(null);
-		}
-		markers.length = 0;
-		total = 0;
-		$('#total').text(0);
-	}
-
-	socket.on('tweet', function(tweet) {
-		if ((photo && tweet.media) || !photo)
-			display_tweet(tweet);
-	});
-
-	$('#pause').click(function() {
-		if (pause)
-			$('#pause').text('STOP');
-		else
-			$('#pause').text('START');
-		pause = !pause;
-		return false;
-	});
-
-	$('#reset').click(function() {
-		reset();
-		return false;
-	});
-
-	$('#type-all').click(function() {
-		reset();
-		photo = false;
-	});
-
-	$('#type-photos').click(function() {
-		reset();
-		photo = true;
-	});
-	</script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEnzv1mUZsuYcnBFD0Vwwy1R1KCtisUIo&sensor=FALSE&libraries=visualization"></script>
+	<script src="/js/script.js"></script>
 </body>
 </html>

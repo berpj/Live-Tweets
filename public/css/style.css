@@ -1,0 +1,41 @@
+body {
+	text-align: center;
+	height: 94.9%;
+	margin: 0;
+	padding: 0;
+}
+html {
+	height: 100%;
+}
+#map-canvas {
+	height: 100%;
+	margin-top: 50px;
+}
+#footer {
+	position: relative;
+	width: 100%;
+	bottom: 110px;
+	z-index: 99;
+}
+#total {
+	font-size: 1.3em;
+}
+#reset {
+	margin-left: 2.5%;
+	margin-right: 4%;
+}
+label {
+	font-size: 1.3em;
+	font-weight: normal;
+	margin-right: 2%;
+}
+p {
+	margin-bottom: 1.8%;
+}
+.text-twittos {
+	color: #0084b4;
+}
+.fa {
+	font-size: 1.3em;
+	margin-right: 4px;
+}

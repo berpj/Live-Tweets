@@ -15,6 +15,7 @@ Live-Tweets
 
 **Client:**
 
+* Backbone (WIP)
 * Jquery
 * Google Map
 * Bootstrap
