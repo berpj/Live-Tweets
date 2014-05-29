@@ -20,32 +20,45 @@
 	}
 	#footer {
 		position: relative;
-		height: 100px;
 		width: 100%;
-		bottom: 100px;
+		bottom: 110px;
 		z-index: 99;
 	}
 	#total {
 		font-size: 1.3em;
 	}
+	#reset {
+		margin-left: 2.5%;
+		margin-right: 4%;
+	}
+	label {
+		font-size: 1.3em;
+		font-weight: normal;
+		margin-right: 2%;
+	}
+	p {
+		margin-bottom: 1.8%;
+	}
+	.text-twittos {
+		color: #0084b4;
+	}
 	</style>
-	<script type="text/javascript"
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEnzv1mUZsuYcnBFD0Vwwy1R1KCtisUIo&sensor=FALSE&libraries=visualization">
-	</script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEnzv1mUZsuYcnBFD0Vwwy1R1KCtisUIo&sensor=FALSE&libraries=visualization"></script>
 	<script type="text/javascript">
 	var map = null;
-
-	var pointarray, heatmap;
 
 	function initialize() {
 		var mapOptions = {
 			center: new google.maps.LatLng(25, 0),
-			zoom: 3
+			zoom: 3,
+			panControl: false,
+			streetViewControl: false,
+			mapTypeControl: false
 		};
 		map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 	}
+	
 	google.maps.event.addDomListener(window, 'load', initialize);
-
 	</script>
 </head>
 
@@ -54,6 +67,9 @@
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#">Live Tweets <small>v0.1.0</small></a>
+			</div>
+			<div class="navbar-header text-center text-success" style="margin-left: 30%; margin-top: 1%">
+				<span id="total">0</span> tweets displayed
 			</div>
 			<div class="collapse navbar-collapse pull-right">
 				<ul class="nav navbar-nav">
@@ -68,41 +84,83 @@
 	<div id="footer">
 		<div class="container">
 			<div class="pull-center">
-				<button class="btn btn-lg btn-success" id="pause">START</button><br>
-				<span id="total">0</span>
+				<p>
+					<button class="btn btn-lg btn-success" id="pause">START</button>
+					<button class="btn btn-lg btn-default" id="reset">RESET</button>
+				</p>
+				<p>
+					<label>
+						<input type="radio" name="type" id="type-all" value="1" checked>
+						ALL
+					</label>
+					<label>
+						<input type="radio" name="type" id="type-photos" value="2">
+						PHOTOS
+					</label>
+				</p>
 			</div>
 		</div>
 	</div>
-
-	<div id="tweets"></div>
 
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script>
+	var socket = io.connect(window.location.hostname);
+	var markers = [];
 	var pause = true;
+	var photo = false;
 	var total = 0;
 
-	var socket = io.connect('http://localhost:8080');
-
-	socket.on('tweet', function(tweet) {
-		write_tweet(tweet);
-	});
-
-	function write_tweet(data) {
+	function display_tweet(tweet) {
 		if (pause === false)
 		{
 			total = total + 1;
-			//$('#tweets').html('<p>' + '<span style="color: #0084b4">@' + data.twittos + '</span> (<i>' + data.geo +  '</i>)<br>' + data.tweet + '</p>');
-			$('#total').html(total);
+			$('#total').text(total);
 
 			var marker = new google.maps.Marker({
-				position: new google.maps.LatLng(data.geo[0],data.geo[1]),
+				position: new google.maps.LatLng(tweet.geo[0],tweet.geo[1]),
 				animation: google.maps.Animation.DROP,
 				map: map
 			});
+			markers.push(marker);
+
+			if (photo)
+			{
+				var infowindow = new google.maps.InfoWindow({
+					content: '<img style="width: 100px" src="' + tweet.media + ':thumb"><br><span style="color: #0084b4"><a href="https://twitter.com/' + tweet.twittos + '" target="_BLANK">@' + tweet.twittos + '</a></span>',
+					maxWidth: 140
+				});
+				infowindow.open(map,marker);
+			}
+			else
+			{
+				var infowindow = new google.maps.InfoWindow({
+					content: '<span class="text-twittos"><a href="https://twitter.com/' + tweet.twittos + '" target="_BLANK">@' + tweet.twittos + '</a></span><br>' + tweet.tweet,
+					maxWidth: 140
+				});
+			}
+			
+			google.maps.event.addListener(marker, 'click', function() {
+				infowindow.open(map,marker);
+			});
 		}
 	};
+
+	function reset()
+	{
+		for (var i = 0; i < markers.length; i++ ) {
+			markers[i].setMap(null);
+		}
+		markers.length = 0;
+		total = 0;
+		$('#total').text(0);
+	}
+
+	socket.on('tweet', function(tweet) {
+		if ((photo && tweet.media) || !photo)
+			display_tweet(tweet);
+	});
 
 	$('#pause').click(function() {
 		if (pause)
@@ -111,6 +169,21 @@
 			$('#pause').text('START');
 		pause = !pause;
 		return false;
+	});
+
+	$('#reset').click(function() {
+		reset();
+		return false;
+	});
+
+	$('#type-all').click(function() {
+		reset();
+		photo = false;
+	});
+
+	$('#type-photos').click(function() {
+		reset();
+		photo = true;
 	});
 	</script>
 </body>

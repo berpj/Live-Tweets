@@ -1,11 +1,27 @@
 {
-	"name": "Live-Tweets",
-	"version": "0.1.0",
-	"dependencies": {
-		"express": "~4.3.1",
-        "socket.io": "~0.9.17",
-        "twitter": "~0.2.9"
-	},
-	"author": "Pierre-Jean Bergeron <pierrejean.bergeron@gmail.com>",
-	"description": "Work in Progress...."
+  "name": "live-tweets",
+  "version": "0.1.0",
+  "description": "Live-Tweets ===========",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/berpj/Live-Tweets.git"
+  },
+  "author": "Pierre-Jean Bergeron <pierrejeanbergeron@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/berpj/Live-Tweets/issues"
+  },
+  "homepage": "https://github.com/berpj/Live-Tweets",
+  "dependencies": {
+    "express": "~4.3.x",
+    "socket.io": "~0.9.x",
+    "twitter": "~0.2.x"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
 }
