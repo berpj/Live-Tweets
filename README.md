@@ -1,6 +1,8 @@
 Live-Tweets
 ===========
 
+![alt tag](https://raw.githubusercontent.com/berpj/live-tweets/master/screenshots.png)
+
 **Server:**
 
 * Node.js
@@ -13,4 +15,14 @@ Live-Tweets
 * Google Map
 * Bootstrap
 
-*Work in Progress...*
+### Installation
+*Todo...*
+
+### Usage
+*Todo...*
+
+### Working example
+Heroku instance: http://live-tweets.herokuapp.com/
+
+### License
+MIT
