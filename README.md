@@ -5,30 +5,34 @@ Live-Tweets
 
 ![alt tag](https://raw.githubusercontent.com/berpj/live-tweets/master/screenshots.png)
 
-### Technologies
+## Technologies
 
-**Server:**
+Server    | Client
+--------- | -------------
+Node.js   | Backbone (WIP)
+Express   | Jquery
+Socket.io | Google Map
+          | Bootstrap
+          | Font-Awesome
 
-* Node.js
-* Express
-* Socket.io
-
-**Client:**
-
-* Backbone (WIP)
-* Jquery
-* Google Map
-* Bootstrap
-* Font-Awesome
-
-### Installation
-*Todo...*
-
-### Usage
-*Todo...*
-
-### Working example
+## Demo
 Heroku instance: http://live-tweets.herokuapp.com/
 
-### License
+## Installation
+1. Install Node.JS
+2. Clone the repo
+3. Install the dependencies:
+
+        npm install
+         
+4. Define your Twitter application credentials in your environment:
+
+        access_token_key=...
+        access_token_secret=...
+        consumer_key=...
+        consumer_secret=...
+        
+5. Run the server. By default it binds to port 8080, so you can open http://localhost:8080.
+
+## License
 MIT
