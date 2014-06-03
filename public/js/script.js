@@ -25,9 +25,20 @@ var MainView = Backbone.View.extend({
 			zoom: 3,
 			panControl: false,
 			streetViewControl: false,
-			mapTypeControl: false
+			mapTypeControl: false,
+			
 		};
 		this.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+		var styles = [
+		{
+			"stylers": [
+			{ "weight": 0.1 },
+			{ "visibility": "simplified" }
+			]
+		}
+		];
+		this.map.setOptions({styles: styles});
 
 		var socket = io.connect();
 
