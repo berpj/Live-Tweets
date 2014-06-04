@@ -1,6 +1,6 @@
 {
   "name": "live-tweets",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Visualize tweets in real time on a world map.",
   "main": "app.js",
   "scripts": {
