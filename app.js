@@ -2,7 +2,6 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server, {log: false});
-var util = require('util');
 var twitter = require('twitter');
 
 var config = {
@@ -28,8 +27,6 @@ io.sockets.on('connection', function(socket) {
 			stream.on('data', function(tweet) {
 				if (tweet.text && tweet.geo && tweet.possibly_sensitive == false)
 				{
-					//console.log(util.inspect(tweet));
-
 					var media = (tweet.entities.media ? tweet.entities.media[0].media_url_https : null);
 
 					socket.broadcast.emit('tweet', {twittos: tweet.user.screen_name, tweet: tweet.text, geo: tweet.geo.coordinates, media: media});
