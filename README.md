@@ -32,7 +32,11 @@ Heroku instance: http://live-tweets.herokuapp.com/
         consumer_key=...
         consumer_secret=...
         
-5. Run the server. By default it binds to port 8080, so you can open http://localhost:8080.
+5. Run the server:
+ 
+        node app.js 
+
+By default it binds to port 8080, so you can open http://localhost:8080.
 
 ## License
 ```
