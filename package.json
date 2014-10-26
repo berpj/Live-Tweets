@@ -10,7 +10,7 @@
     "type": "git",
     "url": "https://github.com/berpj/Live-Tweets.git"
   },
-  "author": "Pierre-Jean Bergeron <pierrejeanbergeron@gmail.com>",
+  "author": "Pierre-Jean Bergeron <>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/berpj/Live-Tweets/issues"
